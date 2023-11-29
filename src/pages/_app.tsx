@@ -32,7 +32,6 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 
-import authService from 'src/services/auth.service'
 import '../../styles/globals.css'
 
 
