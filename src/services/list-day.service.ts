@@ -2,7 +2,7 @@
 import { AxiosResponse } from "axios";
 import api from "./axios.config";
 
-const getListFromUser = async (id: number) => {
+const getListFromUser = async (id: number | string | undefined) => {
   const respone: AxiosResponse = await api.get(`user/${id}`,
   );
 
@@ -15,7 +15,7 @@ const getId = async (id: number) => {
   return respone.data;
 };
 const updateDateTime = async (
-  id: number,
+  id: number | string | undefined,
   body: { date: string; isLate: boolean; detail: string }
 ) => {
   try {
@@ -45,7 +45,7 @@ const createDateTime = async (
     error;
   }
 };
-const deleteDay = async (id: number) => {
+const deleteDay = async (id: number| string | undefined) => {
   try {
     const respone: AxiosResponse = await api.delete(`day/${id}`);
 

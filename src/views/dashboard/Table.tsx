@@ -42,8 +42,8 @@ const DashboardTable = () => {
   
   const fetchData = async () => {
     
-   
-    const res: any = await listService.getListFromUser(Cookies.get('userId'));
+   const id = Cookies.get('userId')
+    const res: any = await listService.getListFromUser(id);
     
     setDataLoaded(res.day);
   }

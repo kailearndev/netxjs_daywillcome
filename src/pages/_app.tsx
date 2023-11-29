@@ -32,7 +32,6 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 
-import authService from 'src/services/auth.service'
 import '../../styles/globals.css'
 
 
@@ -67,15 +66,6 @@ const App = (props: ExtendedAppProps) => {
     !token ? router.push('/auth/login') : getLayout
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
-  useEffect(() => {
-    handleGetInfo()
-  }, [])
-  
-  const handleGetInfo = async () => {
-    //@ts-ignore
-    const user = await authService.getProfile(Cookies.get('access_token'))
-    
-  }
 
   return (
     
