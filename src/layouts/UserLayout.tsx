@@ -1,7 +1,7 @@
 // ** React Imports
 
 "use client"
-import { ReactNode, useEffect } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
 // ** MUI Imports
 import { Theme } from '@mui/material/styles'
@@ -23,6 +23,7 @@ import { useDispatch } from 'react-redux'
 import { setUserInformation } from 'src/redux/userSlice'
 import authService from 'src/services/auth.service'
 import Cookies from 'js-cookie'
+import listService from 'src/services/list-day.service'
 
 interface Props {
   children: ReactNode
@@ -32,7 +33,7 @@ interface Props {
 const UserLayout = ({ children }: Props) => {
   // ** Hooks
   const { settings, saveSettings } = useSettings()
-   
+  
     
   /**
    *  The below variable will hide the current layout menu at given screen size.
@@ -43,7 +44,6 @@ const UserLayout = ({ children }: Props) => {
    *  ! Do not change this value unless you know what you are doing. It can break the template.
    */
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
-
 
   
 

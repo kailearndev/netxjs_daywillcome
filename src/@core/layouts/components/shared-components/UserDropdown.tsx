@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, SyntheticEvent, useState } from 'react'
+import { Fragment, SyntheticEvent, useEffect, useState } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
@@ -18,6 +18,7 @@ import { styled } from '@mui/material/styles'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import LogoutVariant from 'mdi-material-ui/LogoutVariant'
 import Cookies from 'js-cookie'
+import listService from 'src/services/list-day.service'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
@@ -30,8 +31,10 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
 
 
 const UserDropdown = () => {
+  const userId = Cookies.get('userId')
   // ** States
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
+  const [userInfo, setUserInfo] = useState<any>()
 
   // ** Hooks
   const router = useRouter()
@@ -41,13 +44,22 @@ const UserDropdown = () => {
   }
  
   const handleDropdownClose = (url?: string) => {
-    Cookies.remove('access_token')
+    
     if (url) {
       router.push(url)
     }
     setAnchorEl(null)
   }
-
+  useEffect(()=> {
+    getUser()
+  },[])
+  const getUser =async () => {
+    const user = await listService.getListFromUser(userId)   
+    setUserInfo(user)
+    
+  }
+  console.log(userInfo);
+  
   const styles = {
     py: 2,
     px: 4,
@@ -75,7 +87,7 @@ const UserDropdown = () => {
          
           onClick={handleDropdownOpen}
           sx={{ width: 40, height: 40 }}
-          src='/images/avatars/1.png'
+          src={userInfo?.avatar}
         />
       </Badge>
       <Menu
@@ -93,12 +105,12 @@ const UserDropdown = () => {
               badgeContent={<BadgeContentSpan />}
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-              <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
+              <Avatar alt='' src={userInfo?.avatar} sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>{'kai BM'}</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{userInfo?.username}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                Admin
+                ''
               </Typography>
             </Box>
           </Box>
@@ -143,7 +155,8 @@ const UserDropdown = () => {
         </MenuItem> */}
         <Divider />
         <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/auth/login')}>
-          <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }}  />
+          <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} onClick= {()=>
+          Cookies.remove('access_token')} />
           Logout
         </MenuItem>
       </Menu>

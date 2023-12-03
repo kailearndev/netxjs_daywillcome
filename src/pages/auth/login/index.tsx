@@ -40,6 +40,8 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import authService from 'src/services/auth.service'
 import Cookies from 'js-cookie'
+import { useDispatch } from 'react-redux'
+import { setUserInformation } from 'src/redux/userSlice'
 
 interface State {
   password: string
@@ -72,7 +74,7 @@ const LoginPage = () => {
     username: '',
     showPassword: false
   })
-
+  const dispatch = useDispatch()
   // ** Hook
   const theme = useTheme()
   const router = useRouter()
@@ -94,7 +96,8 @@ const LoginPage = () => {
     const { access_token } = token
     if(access_token){
       Cookies.set('access_token', access_token)
-      const user = await authService.getProfile(access_token)
+      const user = await authService.getProfile(access_token)      
+      
       Cookies.set('userId', user?.id)
       router.push('/')
     }
