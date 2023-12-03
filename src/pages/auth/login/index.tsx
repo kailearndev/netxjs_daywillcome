@@ -8,27 +8,27 @@ import { useRouter } from 'next/router'
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import Checkbox from '@mui/material/Checkbox'
-import TextField from '@mui/material/TextField'
-import InputLabel from '@mui/material/InputLabel'
-import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import { styled, useTheme } from '@mui/material/styles'
 import MuiCard, { CardProps } from '@mui/material/Card'
-import InputAdornment from '@mui/material/InputAdornment'
+import CardContent from '@mui/material/CardContent'
+import Checkbox from '@mui/material/Checkbox'
+import Divider from '@mui/material/Divider'
+import FormControl from '@mui/material/FormControl'
 import MuiFormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import InputLabel from '@mui/material/InputLabel'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import { styled, useTheme } from '@mui/material/styles'
 
 // ** Icons Imports
-import Google from 'mdi-material-ui/Google'
-import Github from 'mdi-material-ui/Github'
-import Twitter from 'mdi-material-ui/Twitter'
-import Facebook from 'mdi-material-ui/Facebook'
-import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
+import EyeOutline from 'mdi-material-ui/EyeOutline'
+import Facebook from 'mdi-material-ui/Facebook'
+import Github from 'mdi-material-ui/Github'
+import Google from 'mdi-material-ui/Google'
+import Twitter from 'mdi-material-ui/Twitter'
 
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
@@ -37,11 +37,9 @@ import themeConfig from 'src/configs/themeConfig'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
-import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
-import authService from 'src/services/auth.service'
 import Cookies from 'js-cookie'
-import { useDispatch } from 'react-redux'
-import { setUserInformation } from 'src/redux/userSlice'
+import authService from 'src/services/auth.service'
+import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 
 interface State {
   password: string
@@ -68,14 +66,11 @@ const FormControlLabel = styled(MuiFormControlLabel)<FormControlLabelProps>(({ t
 }))
 
 const LoginPage = () => {
-  // ** State
   const [values, setValues] = useState<State>({
     password: '',
     username: '',
     showPassword: false
   })
-  const dispatch = useDispatch()
-  // ** Hook
   const theme = useTheme()
   const router = useRouter()
 
@@ -91,17 +86,15 @@ const LoginPage = () => {
       password: values.password,
       username: values.username
     })
-  
-    
+
     const { access_token } = token
-    if(access_token){
+    if (access_token) {
       Cookies.set('access_token', access_token)
-      const user = await authService.getProfile(access_token)      
-      
+      const user = await authService.getProfile(access_token)
+
       Cookies.set('userId', user?.id)
       router.push('/')
     }
-  
   }
   const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
